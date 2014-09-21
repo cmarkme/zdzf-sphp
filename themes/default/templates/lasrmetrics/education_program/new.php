@@ -1,0 +1,436 @@
+<?php load_header() ?>
+<h1>Education Program Data</h1>
+
+<div id="notice">
+	* Term Definitions are listed at bottom of the form.<br />
+	** Data from talks requested by the LASpeaker's Bureau will be entered by the LA manager of Community Education
+</div>
+
+<?php echo form_open('lasrmetrics/education_program/new') ?>
+<div class="ui-block wide">
+	<h3><a href="#">General Information</a></h3>
+	<div>
+		<table cellspacing="0" border="0">
+			<tr>
+				<th><label for="created_by">Created By</label></th>
+				<td><?php echo form_dropdown('created_by', $staff, '', 'class="required"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 330px;">
+					<label for="office">Office</label><br />
+					(office of the person completing the form);
+					<div class="note">
+						* The data must be entered by the office that made<br />
+						the original request.
+					</div>
+				</th>
+				<td><?php echo form_dropdown('office', $locations, 'hello there'); ?></td>
+			</tr>
+			<tr>
+				<th style="vertical-align: top; padding-top: 3px;"><label for="contracted_agency">Is this event though a contracted agency?</label></th>
+				<td>
+					<div class="buttonset">
+						<?php echo form_radio(array('name' => 'contracted_agency', 'value' => 'Yes', 'id' => 'contracted_agency1', 'checked' => 'checked')); ?><label for="contracted_agency1">Yes</label>
+						<?php echo form_radio(array('name' => 'contracted_agency', 'value' => 'No', 'id' => 'contracted_agency2')); ?><label for="contracted_agency2">No</label>
+					</div>
+					If yes, please write the name of the agency:<br>
+					<?php echo form_input('contracted_agency_name', ''); ?>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="quarter">Quarter</label><br />
+					<div class="note">
+						(current quarter: July-Sept = Q1; Oct-Dec = Q2;<br />
+						Jan-Mar = Q3; April-June = Q4)
+					</div>
+				</th>
+				<td><?php echo form_dropdown('quarter', array(1=>1,2,3,4)); ?></td>
+			</tr>
+			<tr>
+				<th><label for="fiscial_year">Fiscal Year</label></th>
+				<td><?php echo form_dropdown('fiscial_year', getYearList()); ?></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="ui-block wide">
+	<h3><a href="#">Individule Entry</a></h3>
+	<div>
+		<table cellspacing="0" border="0">
+			<tr>
+				<th style="width: 330px;"><label for="date_of_program">Date of Program</label></th>
+				<td><?php echo form_input('date_of_program', '', 'class="datepicker" style="width: 100px;"') ?></td>
+			</tr>
+			<tr>
+				<th><label for="name_of_education_program">Name of the Education Program</label></th>
+				<td><?php echo form_dropdown('name_of_education_program', $education_programs) ?></td>
+			</tr>
+			<tr>
+				<th><label for="name_of_presenters">Names of Presenter(s)</label></th>
+				<td><?php echo form_input('name_of_presenters', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="type_of_presenter">Type of Presenter</label></th>
+				<td><?php echo form_dropdown('type_of_presenter', $presenter_types) ?></td>
+			</tr>
+			<tr>
+				<th><label for="program_type">Program Type</label></th>
+				<td><?php echo form_dropdown('program_type', $program_types) ?></td>
+			</tr>
+			<tr>
+				<th><label for="target_audience">Target Audience</label></th>
+				<td><?php echo form_dropdown('target_audience', $target_audiences) ?></td>
+			</tr>
+			<tr>
+				<th>
+					<label for="grant_program">Grant / Program</label><br />
+					<small>(For funding / reporting purposes only, sing <br />
+						Presentation to a funding source)</small>
+				</th>
+				<td><?php echo form_dropdown('grant_program', $grant_programs); ?></td>
+			</tr>
+			<tr>
+				<th>
+					<label for="spa">SPA</label><br />
+					<small>(County where program was held)</small>
+				</th>
+				<td><?php echo form_dropdown('spa', $SPA); ?></td>
+			</tr>
+			<tr>
+				<th><label for="total_number_attendees">Total Number of Attendees</label></th>
+				<td><?php echo form_input('total_number_attendees', 0, 'style="width: auto;" size="3"') ?></td>
+			</tr>
+			<tr>
+				<th style="vertical-align: top; padding-top: 3px;"><label for="advocacy_information_presented">Was advocacy information presented?</label></th>
+				<td>
+					<div class="buttonset">
+						<?php echo form_radio(array('name' => 'advocacy_information_presented', 'value' => 'Yes', 'id' => 'advocacy_information_presented1', 'checked' => 'checked')); ?><label for="advocacy_information_presented1">Yes</label>
+						<?php echo form_radio(array('name' => 'advocacy_information_presented', 'value' => 'No', 'id' => 'advocacy_information_presented2')); ?><label for="advocacy_information_presented2">No</label>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>	
+<div class="ui-block wide">
+	<h3><a href="#">Additional Program Calendar Information</a></h3>
+	<div>
+		<table cellspacing="0" border="0">
+			<tr>
+				<th style="width: 330px;"><label for="agency">Agency</label></th>
+				<td><?php echo form_input('agency', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="contact_name">Contact Name</label></th>
+				<td><?php echo form_input('contact_name', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="event_address">Event Address</label></th>
+				<td><?php echo form_textarea(array('name' => 'event_address','rows' => '4', 'value' => '')) ?></td>
+			</tr>
+			<tr>
+				<th><label for="telephone">Telephone</label></th>
+				<td><?php echo form_input('telephone', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="fax">Fax</label></th>
+				<td><?php echo form_input('fax', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="email">Email</label></th>
+				<td><?php echo form_input('email', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="topic">
+					Topic <br>
+					If Other, please specify:
+				</label></th>
+				<td><?php echo form_input('topic', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="series">Series?</label></th>
+				<td>
+					<div class="buttonset">
+						<?php echo form_radio(array('name' => 'series', 'value' => 'Yes', 'id' => 'series1', 'checked' => 'checked')); ?><label for="series1">Yes</label>
+						<?php echo form_radio(array('name' => 'series', 'value' => 'No', 'id' => 'series2')); ?><label for="series2">No</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th style="vertical-algin: top; padding-top: 3px;">Time of Event</th>
+				<td>
+					<table cellspacing="0">
+						<tr>
+							<td style="width: 50px;"><label for="email">Start:</label></td>
+							<td><?php echo form_input('start_time', '', 'class="timepicker" style="width: 100px;"') ?></td>
+						</tr>
+						<tr>
+							<td><label for="email">End:</label></td>
+							<td><?php echo form_input('end_time', '', 'class="timepicker" style="width: 100px;"') ?></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<th style="vertical-algin: top; padding-top: 3px;">Language</th>
+				<td>
+					<div class="buttons">
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'English', 'id' => 'language1')); ?><label style="margin-bottom: 10px;" for="language1">English</label>
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'Vietnamese', 'id' => 'language2')); ?><label style="margin-bottom: 10px;" for="language2">Vietnamese</label>
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'Spanish', 'id' => 'language3')); ?><label style="margin-bottom: 10px;" for="language3">Spanish</label>
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'Korean', 'id' => 'language4')); ?><label style="margin-bottom: 10px;" for="language4">Korean</label>
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'Cantonese', 'id' => 'language5')); ?><label style="margin-bottom: 10px;" for="language5">Cantonese</label>
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'Other', 'id' => 'language6')); ?><label style="margin-bottom: 10px;" for="language6">Other</label>
+						<?php echo form_checkbox(array('name' => 'language[]', 'value' => 'Chinese', 'id' => 'language7')); ?><label style="margin-bottom: 10px;" for="language7">Chinese</label>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<th><label for="donation">Donation?</label></th>
+				<td>
+					<div class="buttonset">
+						<?php echo form_radio(array('name' => 'donation', 'value' => 'Yes', 'id' => 'donation1', 'checked' => 'checked')); ?><label for="donation1">Yes</label>
+						<?php echo form_radio(array('name' => 'donation', 'value' => 'No', 'id' => 'donation2')); ?><label for="donation2">No</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="donation_amount">Donation Amount</label></th>
+				<td>$<?php echo form_input('donation_amount', '') ?></td>
+			</tr>
+			<tr>
+				<th><label for="post_online">Post Online?</label></th>
+				<td>
+					<div class="buttonset">
+						<?php echo form_radio(array('name' => 'post_online', 'value' => 'Yes', 'id' => 'post_online1', 'checked' => 'checked')); ?><label for="post_online1">Yes</label>
+						<?php echo form_radio(array('name' => 'post_online', 'value' => 'No', 'id' => 'post_online2')); ?><label for="post_online2">No</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="comments_notes">Comments / Notes:</label></th>
+				<td><?php echo form_textarea(array('name' => 'comments_notes','rows' => '4', 'value' => '')) ?></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="ui-block wide">
+	<h3><a href="#">Participants by County of Residence (duplicated)</a></h3>
+	<div>
+		<table cellspacing="0" border="0">
+			<tr>
+				<td colspan="2"><small>(best approximation, based on CSQEI forms)</small></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 1</th>
+				<td><?php echo form_input('spa_1', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 2</th>
+				<td><?php echo form_input('spa_2', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 3</th>
+				<td><?php echo form_input('spa_3', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 4</th>
+				<td><?php echo form_input('spa_4', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 5</th>
+				<td><?php echo form_input('spa_5', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 6</th>
+				<td><?php echo form_input('spa_6', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 7</th>
+				<td><?php echo form_input('spa_7', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">SPA 8</th>
+				<td><?php echo form_input('spa_8', 0, 'class="la_county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Los Angels County Total<br /><small>(self calculated)</small></th>
+				<td><?php echo form_input('la_county_total', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">San Bernandino county</th>
+				<td><?php echo form_input('san_bernandino_county', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Inland Empire</th>
+				<td><?php echo form_input('inland_empire', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Kings County</th>
+				<td><?php echo form_input('kings_county', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Tulare County</th>
+				<td><?php echo form_input('tulare_county', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Inyo County</th>
+				<td><?php echo form_input('inyo_county', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Mono County</th>
+				<td><?php echo form_input('mono_county', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Coachella Valley</th>
+				<td><?php echo form_input('coachella_valley', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Southwest Riverside</th>
+				<td><?php echo form_input('southwest_riverside', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Riverside</th>
+				<td><?php echo form_input('riverside', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Out of Territory</th>
+				<td><?php echo form_input('out_of_territory', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Unknown</th>
+				<td><?php echo form_input('unknown', 0, 'class="county" style="width: auto;" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">County Total</th>
+				<td><?php echo form_input('county_total', 0, 'style="width: auto;" size="3"'); ?></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="ui-block wide">
+	<h3><a href="#">Participants Ethnicity (Duplicated)</a></h3>
+	<div>
+		<table cellspacing="0" border="0">
+			<tr>
+				<td colspan="2"><small>(best approximation, based on CSQEI forms)</small></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">A.I. / Alasken Native</th>
+				<td><?php echo form_input('ai_alasken_native', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Asian Indian</th>
+				<td><?php echo form_input('asian_indian', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Black / Afrcn American</th>
+				<td><?php echo form_input('afrcn_american', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Chinese</th>
+				<td><?php echo form_input('chinese', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Cuban</th>
+				<td><?php echo form_input('cuban', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Filipino</th>
+				<td><?php echo form_input('filipino', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Japanese</th>
+				<td><?php echo form_input('japanese', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Korean</th>
+				<td><?php echo form_input('korean', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Mexican</th>
+				<td><?php echo form_input('mexican', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Hawaiian / Pacific Islndr</th>
+				<td><?php echo form_input('hawaiian_pacific_islndr', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Puerto Rican</th>
+				<td><?php echo form_input('puerto_rican', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Vietnamese</th>
+				<td><?php echo form_input('vietnamese', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">White</th>
+				<td><?php echo form_input('white', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Other Asian</th>
+				<td><?php echo form_input('other_asian', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Other Hispanic / Latino</th>
+				<td><?php echo form_input('other_hispanic_latino', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Two or More</th>
+				<td><?php echo form_input('two_or_more_ethnicity', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">Other</th>
+				<td><?php echo form_input('other_ethnicity', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th style="width: 150px;">unknown</th>
+				<td><?php echo form_input('unknown_ethnicity', 0, 'class="ethnicity" style="width: auto" size="3"'); ?></td>
+			</tr>
+			<tr>
+				<th>Ethnicity Total</th>
+				<td><?php echo form_input('ethnicity_total', 0, 'style="width: auto;" size="3"'); ?></td>
+			</tr>
+		</table>
+	</div>
+	<p><?php echo form_submit('save_education_program', 'Save Education Program'); ?></p>
+</div>
+
+<?php echo form_hidden('do_action', 'save_form'); ?>
+<?php echo form_close(); ?>
+
+<script type="text/javascript">
+$(function() {
+	$(':input').keyup(function() {
+		var $t = $(this),
+		total = 0,
+		clss = $(this).attr('class'),
+		total_field = $(':input[name="'+clss+'_total"]'),
+		total_field2 = $(':input[name="'+total_field.attr('class')+'_total"]');
+
+		$('.'+clss).each(function() 
+		{
+			if(is_numeric($(this).val()))
+			{
+				total += parseInt($(this).val());
+			}
+		});
+		
+		total_field.val(total);
+		total_field2.val(total);
+	});
+
+	$("input[type=text]").click(function(e){
+		// Select field contents
+		this.select();
+		e.preventDefault();
+	});
+});
+</script>
+
+<?php load_footer() ?>
